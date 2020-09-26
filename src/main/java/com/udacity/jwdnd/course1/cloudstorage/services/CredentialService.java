@@ -7,7 +7,9 @@ import com.udacity.jwdnd.course1.cloudstorage.model.Credentials;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
+import java.nio.charset.Charset;
 import java.util.List;
+import java.util.Random;
 
 @Service
 public class CredentialService {
@@ -29,15 +31,14 @@ public class CredentialService {
         if (credentialForm == null){
             throw new StorageException("Failed to store empty credentials");
         }
-
-        System.out.println(userid);
-
+        String key = encryptionService.genrateKey();
+        String encryptionPass =  encryptionService.encryptValue(credentialForm.getCredentials_password(),key);
         Credentials credentials = new Credentials();
-        credentials.setCredentialId(Integer.parseInt(credentialForm.getCredentialid()));
+        credentials.setCredentialId(null);
         credentials.setUserId(userid);
         credentials.setUrl(credentialForm.getCredential_url());
-        credentials.setPassword(encryptionService.encryptValue(credentialForm.getCredentials_password(),credentialForm.getKey()));
-        credentials.setKey(credentials.getKey());
+        credentials.setPassword(encryptionPass);
+        credentials.setKey(key);
 
         return this.credentialsMapper.insert(credentials);
     }
@@ -48,12 +49,15 @@ public class CredentialService {
 
     public int updateCredentials(CredentialForm credentialForm,Integer userid){
 
+        String key = encryptionService.genrateKey();
+        String encryptionPass =  encryptionService.encryptValue(credentialForm.getCredentials_password(),key);
+
         Credentials credentials = new Credentials();
         credentials.setCredentialId(Integer.parseInt(credentialForm.getCredentialid()));
         credentials.setUserId(userid);
         credentials.setUrl(credentials.getUrl());
-        credentials.setPassword(encryptionService.encryptValue(credentialForm.getCredentials_password(),credentialForm.getKey()));
-        credentials.setKey(credentials.getKey());
+        credentials.setPassword(encryptionPass);
+        credentials.setKey(key);
 
         return this.credentialsMapper.update(credentials);
     }

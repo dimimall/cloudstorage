@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage;
 
 import com.udacity.jwdnd.course1.cloudstorage.Credentials.CredentialTest;
 import com.udacity.jwdnd.course1.cloudstorage.Notes.NoteTest;
+import com.udacity.jwdnd.course1.cloudstorage.Registration.LoginTest;
 import com.udacity.jwdnd.course1.cloudstorage.Registration.RegistrationTest;
 import com.udacity.jwdnd.course1.cloudstorage.model.Credentials;
 import com.udacity.jwdnd.course1.cloudstorage.model.Notes;
@@ -9,6 +10,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
 import org.junit.jupiter.api.*;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -26,12 +28,12 @@ class CloudStorageApplicationTests {
 
 	@BeforeAll
 	static void beforeAll() {
-		WebDriverManager.chromedriver().setup();
+		WebDriverManager.firefoxdriver().setup();
 	}
 
 	@BeforeEach
 	public void beforeEach() {
-		this.driver = new ChromeDriver();
+		this.driver = new FirefoxDriver();
 		baseURL = "http://localhost:" + port;
 		wait = new WebDriverWait(driver, 5);
 	}
@@ -66,7 +68,7 @@ class CloudStorageApplicationTests {
 		String password = "10011982abc";
 
 		driver.get(baseURL + "/signup");
-		wait.until(ExpectedConditions.titleContains("sign up"));
+		wait.until(ExpectedConditions.titleContains("Sign Up"));
 		Assertions.assertEquals("Sign Up", driver.getTitle());
 
 		RegistrationTest registrationTest = new RegistrationTest(driver);
@@ -74,7 +76,9 @@ class CloudStorageApplicationTests {
 
 		wait.until(ExpectedConditions.titleContains("Login"));
 		Assertions.assertEquals("Login", driver.getTitle());
-		registrationTest.loginUser(username,password);
+
+		LoginTest loginTest = new LoginTest(driver);
+		loginTest.loginUser(username,password);
 
 		wait.until(ExpectedConditions.titleContains("Home"));
 		Assertions.assertEquals("Home", driver.getTitle());
@@ -84,10 +88,10 @@ class CloudStorageApplicationTests {
 		wait.until(ExpectedConditions.titleContains("Login"));
 		Assertions.assertEquals("Login", driver.getTitle());
 
-		CredentialTest credentialTest = new CredentialTest(driver);
-		credentialTest.logoutHomePage();
-		wait.until(ExpectedConditions.titleContains("Login"));
-		Assertions.assertEquals("Login", driver.getTitle());
+//		CredentialTest credentialTest = new CredentialTest(driver);
+//		credentialTest.logoutHomePage();
+//		wait.until(ExpectedConditions.titleContains("Login"));
+//		Assertions.assertEquals("Login", driver.getTitle());
 
 		driver.get(baseURL + "/home");
 		Assertions.assertFalse(driver.getTitle().equals("Home"));
@@ -99,11 +103,11 @@ class CloudStorageApplicationTests {
 	{
 		String firstName = "Dimitra";
 		String lastName = "Malliarou";
-		String username = "dimimall";
-		String password = "10011982abc";
+		String username = "dimitra";
+		String password = "10011982Abc";
 
 		driver.get(baseURL + "/signup");
-		wait.until(ExpectedConditions.titleContains("sign up"));
+		wait.until(ExpectedConditions.titleContains("Sign Up"));
 		Assertions.assertEquals("Sign Up", driver.getTitle());
 
 		RegistrationTest registrationTest = new RegistrationTest(driver);
@@ -111,7 +115,8 @@ class CloudStorageApplicationTests {
 
 		wait.until(ExpectedConditions.titleContains("Login"));
 		Assertions.assertEquals("Login", driver.getTitle());
-		registrationTest.loginUser(username,password);
+		LoginTest loginTest = new LoginTest(driver);
+		loginTest.loginUser(username,password);
 
 		Assertions.assertEquals("Home", driver.getTitle());
 
@@ -121,7 +126,7 @@ class CloudStorageApplicationTests {
 		NoteTest noteTest = new NoteTest(driver);
 		noteTest.openNavTapNote();
 		noteTest.createNote(noteTitle,noteDescription);
-		noteTest.editNoteButton();
+		//noteTest.editNoteButton();
 		noteTest.waitNoteModelPage();
 
 		Notes notes = noteTest.getFirstNote();
@@ -135,11 +140,11 @@ class CloudStorageApplicationTests {
 	{
 		String firstName = "Dimitra";
 		String lastName = "Malliarou";
-		String username = "dimimall";
-		String password = "10011982abc";
+		String username = "dimi";
+		String password = "10011982aBc";
 
 		driver.get(baseURL + "/signup");
-		wait.until(ExpectedConditions.titleContains("sign up"));
+		wait.until(ExpectedConditions.titleContains("Sign Up"));
 		Assertions.assertEquals("Sign Up", driver.getTitle());
 
 		RegistrationTest registrationTest = new RegistrationTest(driver);
@@ -147,7 +152,8 @@ class CloudStorageApplicationTests {
 
 		wait.until(ExpectedConditions.titleContains("Login"));
 		Assertions.assertEquals("Login", driver.getTitle());
-		registrationTest.loginUser(username,password);
+		LoginTest loginTest = new LoginTest(driver);
+		loginTest.loginUser(username,password);
 
 		Assertions.assertEquals("Home", driver.getTitle());
 
@@ -156,8 +162,9 @@ class CloudStorageApplicationTests {
 		String password1 = "10011982abc";
 
 		CredentialTest credentialTest = new CredentialTest(driver);
+		credentialTest.openNavTapCredential();
 		credentialTest.createCredential(url,username1,password1);
-		credentialTest.editCredentialButton();
+		//credentialTest.editCredentialButton();
 		credentialTest.waitModeCredentiallPage();
 
 		Credentials credentials = credentialTest.getFirstCredentials();

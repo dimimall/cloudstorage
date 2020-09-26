@@ -1,9 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.controllers;
 
-import com.udacity.jwdnd.course1.cloudstorage.model.Credentials;
-import com.udacity.jwdnd.course1.cloudstorage.model.Files;
-import com.udacity.jwdnd.course1.cloudstorage.model.Notes;
-import com.udacity.jwdnd.course1.cloudstorage.model.User;
+import com.udacity.jwdnd.course1.cloudstorage.model.*;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileUploadService;
 import com.udacity.jwdnd.course1.cloudstorage.services.NotesService;
@@ -34,7 +31,7 @@ public class FilesController {
     }
 
     @GetMapping("/files")
-    public String fileController(Principal principal, @ModelAttribute("Files") Files files, Notes notes, Credentials credentials, Model model) {
+    public String fileController(Principal principal, @ModelAttribute("Files") Files files, @ModelAttribute("NoteForm") NoteForm noteForm, @ModelAttribute("CredentialsForm") CredentialForm credentialForm, Model model) {
         User user = userService.getUser(principal.getName());
 
         model.addAttribute("filesUpload", this.fileUploadService.getAllFiles(user.getUserId()));
@@ -45,7 +42,7 @@ public class FilesController {
     }
 
     @PostMapping("/files")
-    public String postFilesForm(Principal principal, @RequestParam("file") MultipartFile file, Notes notes, @ModelAttribute("Files") Files files, Credentials credentials, Model model) {
+    public String postFilesForm(Principal principal, @RequestParam("file") MultipartFile file, @ModelAttribute("NoteForm") NoteForm noteForm, @ModelAttribute("Files") Files files, @ModelAttribute("CredentialsForm") CredentialForm credentialForm, Model model) {
         String uploadError = null;
         User user = userService.getUser(principal.getName());
 
@@ -82,7 +79,7 @@ public class FilesController {
     }
 
     @GetMapping("/files/delete/{fileid}")
-    public String deleteFile(Principal principal, @PathVariable("fileid") int fileid, Notes notes, @ModelAttribute("Files") Files files, Credentials credentials, Model model){
+    public String deleteFile(Principal principal, @PathVariable("fileid") int fileid, @ModelAttribute("NoteForm") NoteForm noteForm, @ModelAttribute("Files") Files files, @ModelAttribute("CredentialsForm") CredentialForm credentialForm, Model model){
         User user = userService.getUser(principal.getName());
 
         this.fileUploadService.deleteFile(fileid);

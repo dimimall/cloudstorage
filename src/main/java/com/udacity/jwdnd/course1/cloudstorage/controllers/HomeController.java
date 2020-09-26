@@ -32,6 +32,7 @@ public class HomeController {
     @GetMapping
     public String homePage(Principal principal, @ModelAttribute("Files") Files files, @ModelAttribute("NoteForm") NoteForm noteForm, @ModelAttribute("CredentialsForm") CredentialForm credentialForm, Model model){
         User user = userService.getUser(principal.getName());
+        System.out.println("current user: "+user.getUsername());
 
         model.addAttribute("filesUpload",this.fileUploadService.getAllFiles(user.getUserId()));
         model.addAttribute("notesupload",this.notesService.getNotesList(user.getUserId()));

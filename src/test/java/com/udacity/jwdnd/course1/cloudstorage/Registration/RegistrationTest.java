@@ -12,8 +12,8 @@ public class RegistrationTest {
 
     private WebDriver webDriver;
 
-    @FindBy(id = "signup-link")
-    private WebElement singup;
+//    @FindBy(id = "signup-link")
+//    private WebElement singup;
 
     @FindBy(id = "inputFirstName")
     private WebElement firstname;
@@ -30,39 +30,39 @@ public class RegistrationTest {
     @FindBy(id = "submit")
     private WebElement submit_button;
 
-    @FindBy(id = "login_button")
-    private WebElement login_button;
-
+//    @FindBy(id = "login_button")
+//    private WebElement login_button;
+//
     @FindBy(id = "login-link")
     private WebElement login;
-
-    @FindBy(id = "logout")
-    private WebElement logout;
+//
+//    @FindBy(id = "logout")
+//    private WebElement logout;
 
     public RegistrationTest(WebDriver webDriver){
         this.webDriver = webDriver;
         PageFactory.initElements(webDriver,this);
     }
 
-    public void signUpPage(){
-        System.out.println("click signup button");
-        new WebDriverWait(this.webDriver,15).until(ExpectedConditions.elementToBeClickable(this.singup))
-                .click();
-    }
-
-    public void loginPage(){
-        System.out.println("click login button");
-        new WebDriverWait(this.webDriver,15)
-                .until(ExpectedConditions.elementToBeClickable(this.login))
-                .click();
-    }
-
-    public void logoutPage() {
-        System.out.println("click logout button");
-        new WebDriverWait(this.webDriver,15)
-                .until(ExpectedConditions.elementToBeClickable(this.logout))
-                .click();
-    }
+//    public void signUpPage(){
+//        System.out.println("click signup button");
+//        new WebDriverWait(this.webDriver,15).until(ExpectedConditions.elementToBeClickable(this.singup))
+//                .click();
+//    }
+//
+//    public void loginPage(){
+//        System.out.println("click login button");
+//        new WebDriverWait(this.webDriver,15)
+//                .until(ExpectedConditions.elementToBeClickable(this.login))
+//                .click();
+//    }
+//
+//    public void logoutPage() {
+//        System.out.println("click logout button");
+//        new WebDriverWait(this.webDriver,15)
+//                .until(ExpectedConditions.elementToBeClickable(this.logout))
+//                .click();
+//    }
 
     public void createUser(String firstname, String lastname, String username, String password)
     {
@@ -71,12 +71,7 @@ public class RegistrationTest {
         this.username.sendKeys(username);
         this.userpassword.sendKeys(password);
         this.submit_button.click();
+        this.login.click();
     }
 
-    public void loginUser(String username, String password)
-    {
-        this.username.sendKeys(username);
-        this.userpassword.sendKeys(password);
-        this.login_button.click();
-    }
 }

@@ -150,12 +150,12 @@
                                 <tbody th:each="credential : ${credentials}">
                                 <tr>
                                     <td>
-                                        <button id="edit-button" type="button" class="btn btn-success"th:onclick="javascript:showCredentialModal([[${credential.getCredentialId()}]] ,[[${credential.getUrl()}]], [[${credential.getUsername()}]], [[${credential.getPassword()}]])">Edit</button>
+                                        <button id="edit-button" type="button" class="btn btn-success"th:onclick="javascript:showCredentialModal([[${credential.getCredentialId()}]] ,[[${credential.getUrl()}]], [[${credential.getUsername()}]], [[${encryptionService.decryptValue(credential.getPassword(),credential.getKey())}]])">Edit</button>
                                         <a id="delete-button" class="btn btn-danger" th:href="@{/credentials/delete/{credentialid}(credentialid=${credential.getCredentialId()})}">Delete</a>
                                     </td>
                                     <th scope="row" th:text="${credential.getUrl()}">Example Credential URL</th>
                                     <td th:text="${credential.getUsername()}">Example Credential Username</td>
-                                    <td th:text="${T(com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService).decryptValue(credential.getPassword(),credential.getKey())}">Example Credential Password</td>
+                                    <td th:text="${credential.getPassword()}">Example Credential Password</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -183,7 +183,7 @@
                                             </div>
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Password</label>
-                                                <input type="text" th:field="*{credentials_password}" name= "password" class="form-control" id="credential-password" maxlength="30" required>
+                                                <input type="password" th:field="*{credentials_password}" name= "password" class="form-control" id="credential-password" maxlength="30" required>
                                             </div>
                                             <button id="credentialSubmit" type="submit" class="d-none"></button>
                                         </form>

@@ -22,20 +22,18 @@ public class CredentialsController {
     private final UserService userService;
     private final NotesService notesService;
     private final FileUploadService fileUploadService;
-    private final EncryptionService encryptionService;
     private Logger logger = LoggerFactory.getLogger(CredentialsController.class);
 
-    public CredentialsController(CredentialService credentialService, UserService userService, NotesService notesService, FileUploadService fileUploadService, EncryptionService encryptionService)
+    public CredentialsController(CredentialService credentialService, UserService userService, NotesService notesService, FileUploadService fileUploadService)
     {
         this.credentialService = credentialService;
         this.userService = userService;
         this.notesService = notesService;
         this.fileUploadService = fileUploadService;
-        this.encryptionService = encryptionService;
     }
 
     @GetMapping("/credentials")
-    public String credentialController(Principal principal,@ModelAttribute("Files") Files files, @ModelAttribute("NoteForm") NoteForm noteForm, @ModelAttribute("CredentialsForm") CredentialForm credentialForm, Model model)
+    public String credentialController(Principal principal, @ModelAttribute("Files") Files files, @ModelAttribute("NoteForm") NoteForm noteForm, @ModelAttribute("CredentialsForm") CredentialForm credentialForm, Model model)
     {
         User user = userService.getUser(principal.getName());
 
@@ -58,10 +56,6 @@ public class CredentialsController {
             }
         }else {
             try{
-                byte[] array = new byte[7];
-                new Random().nextBytes(array);
-                String generatedString = new String(array, Charset.forName("UTF-8"));
-                credentialForm.setKey(generatedString);
                 this.credentialService.createCredentials(credentialForm,user.getUserId());
             }catch (Exception e){
                 logger.error("Cause: " + e.getCause() + ". Message: " + e.getMessage());

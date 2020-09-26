@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 import javax.crypto.*;
 import javax.crypto.spec.SecretKeySpec;
 import java.io.UnsupportedEncodingException;
+import java.math.BigInteger;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.util.Base64;
@@ -30,6 +31,23 @@ public class EncryptionService {
         }
 
         return Base64.getEncoder().encodeToString(encryptedValue);
+    }
+
+    public String genrateKey()
+    {
+        KeyGenerator keyGen = null;
+        try {
+            keyGen = KeyGenerator.getInstance("AES");
+            keyGen.init(256);
+            SecretKey secretkey = keyGen.generateKey();
+            // GENERATE random nonce (number used once)
+            byte[] bytes = secretkey.getEncoded();
+            String key = String.format("%032X", new BigInteger(+1, bytes));
+            return key;
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
+        }
+        return null;
     }
 
     public String decryptValue(String data, String key) {
