@@ -1,5 +1,6 @@
 package com.udacity.jwdnd.course1.cloudstorage.controllers;
 
+import com.udacity.jwdnd.course1.cloudstorage.Mapper.FilesMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.*;
 import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
 import com.udacity.jwdnd.course1.cloudstorage.services.FileUploadService;
@@ -22,12 +23,14 @@ public class FilesController {
     private final UserService userService;
     private final NotesService notesService;
     private final CredentialService credentialService;
+    private final FilesMapper filesMapper;
 
-    public FilesController(FileUploadService fileUploadService, UserService userService, NotesService notesService, CredentialService credentialService){
+    public FilesController(FileUploadService fileUploadService, UserService userService, NotesService notesService, CredentialService credentialService, FilesMapper filesMapper){
         this.fileUploadService = fileUploadService;
         this.notesService = notesService;
         this.userService = userService;
         this.credentialService = credentialService;
+        this.filesMapper = filesMapper;
     }
 
     @GetMapping("/files")
@@ -45,9 +48,12 @@ public class FilesController {
     public String postFilesForm(Principal principal, @RequestParam("file") MultipartFile file, @ModelAttribute("NoteForm") NoteForm noteForm, @ModelAttribute("Files") Files files, @ModelAttribute("CredentialsForm") CredentialForm credentialForm, Model model) {
         String uploadError = null;
         User user = userService.getUser(principal.getName());
-
+        int rowsAdded =0;
         if (uploadError == null) {
-            int rowsAdded = this.fileUploadService.addFile(file,user.getUserId());
+            if (filesMapper.getFileName(file.getOriginalFilename()) != null)
+                model.addAttribute("uploadError", "You cannot upload same file name ");
+            else
+                rowsAdded = this.fileUploadService.addFile(file,user.getUserId());
             if (rowsAdded < 0) {
                 uploadError = "There was an error upload file. Please try again.";
             }
@@ -82,7 +88,22 @@ public class FilesController {
     public String deleteFile(Principal principal, @PathVariable("fileid") int fileid, @ModelAttribute("NoteForm") NoteForm noteForm, @ModelAttribute("Files") Files files, @ModelAttribute("CredentialsForm") CredentialForm credentialForm, Model model){
         User user = userService.getUser(principal.getName());
 
-        this.fileUploadService.deleteFile(fileid);
+        String uploadError = null;
+
+        if (uploadError == null) {
+               int rowsAdded = this.fileUploadService.deleteFile(fileid);
+            if (rowsAdded < 0) {
+                uploadError = "There was an error upload file. Please try again.";
+            }
+        }
+
+        if (uploadError == null) {
+            model.addAttribute("uploadSuccess",
+                    "You successfully delete '" + files.getFileName() + "'");
+        } else {
+            model.addAttribute("uploadError",
+                    "You cannot delete file '" + uploadError + "'");
+        }
 
         model.addAttribute("filesUpload", this.fileUploadService.getAllFiles(user.getUserId()));
         model.addAttribute("notesupload", this.notesService.getNotesList(user.getUserId()));

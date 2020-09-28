@@ -51,16 +51,23 @@ public class NotesController {
         {
             try {
                 this.notesService.createNotes(noteForm,user.getUserId());
+                model.addAttribute("uploadSuccess",
+                        "You successfully create '" + noteForm.getNotetitle() + "'");
             }catch (Exception e){
                 logger.error("Cause: " + e.getCause() + ". Message: " + e.getMessage());
+                model.addAttribute("uploadError",
+                        "You cannot create note ");
             }
         }
         else {
             try{
                 this.notesService.updateNote(noteForm,user.getUserId());
+                model.addAttribute("uploadSuccess",
+                        "You successfully update '" + noteForm.getNotetitle() + "'");
             }catch (Exception e)
             {
                 logger.error("Cause: " + e.getCause() + ". Message: " + e.getMessage());
+                model.addAttribute("uploadError", "You cannot update note ");
             }
         }
 
@@ -73,9 +80,24 @@ public class NotesController {
 
     @GetMapping("/notes/delete/{notetitle}")
     public String deleteNote(Principal principal, @PathVariable("notetitle") String notetitle, @ModelAttribute("Files") Files files, @ModelAttribute("NoteForm") NoteForm noteForm, @ModelAttribute("CredentialsForm") CredentialForm credentialForm, Model model){
-        this.notesService.deleteNote(notetitle);
-
         User user = userService.getUser(principal.getName());
+
+        String uploadError = null;
+
+        if (uploadError == null) {
+            int rowsAdded = this.notesService.deleteNote(notetitle);
+            if (rowsAdded < 0) {
+                uploadError = "There was an error delete note. Please try again.";
+            }
+        }
+
+        if (uploadError == null) {
+            model.addAttribute("uploadSuccess",
+                    "You successfully delete '" + notetitle + "'");
+        } else {
+            model.addAttribute("uploadError",
+                    "You cannot delete note '" + uploadError + "'");
+        }
 
         model.addAttribute("notesupload",this.notesService.getNotesList(user.getUserId()));
         model.addAttribute("filesUpload", this.fileUploadService.getAllFiles(user.getUserId()));

@@ -33,7 +33,7 @@ public class RegistrationTest {
 //    @FindBy(id = "login_button")
 //    private WebElement login_button;
 //
-    @FindBy(id = "login-link")
+    @FindBy(id = "login_link")
     private WebElement login;
 //
 //    @FindBy(id = "logout")
@@ -50,12 +50,12 @@ public class RegistrationTest {
 //                .click();
 //    }
 //
-//    public void loginPage(){
-//        System.out.println("click login button");
-//        new WebDriverWait(this.webDriver,15)
-//                .until(ExpectedConditions.elementToBeClickable(this.login))
-//                .click();
-//    }
+    public void loginPage(){
+        System.out.println("click login button");
+        new WebDriverWait(this.webDriver,15)
+                .until(ExpectedConditions.elementToBeClickable(this.login))
+                .click();
+    }
 //
 //    public void logoutPage() {
 //        System.out.println("click logout button");
@@ -71,7 +71,7 @@ public class RegistrationTest {
         this.username.sendKeys(username);
         this.userpassword.sendKeys(password);
         this.submit_button.click();
-        this.login.click();
+        //this.login.click();
     }
 
 }

@@ -80,6 +80,21 @@
                         </button>
 
                         <div class="table-responsive">
+                            <table class="table table-striped" id="success-note">
+                                <thead>
+                                <tr th:if="${uploadSuccess}">
+                                    <th style="width: 20%" scope="col"></th>
+                                    <th style="width: 80%" scope="col" th:text="${uploadSuccess}"></th>
+                                </tr>
+                                <tr th:if="${uploadError}">
+                                    <th style="width: 20%" scope="col"></th>
+                                    <th style="width: 80%" scope="col" th:text="${uploadError}"></th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                        <div class="table-responsive">
                             <table class="table table-striped" id="userTable">
                                 <thead>
                                     <tr>
@@ -94,8 +109,8 @@
                                             <button id="edit_button" type="button" class="btn btn-success"th:onclick="javascript:showNoteModal([[${noteupload.getNoteid()}]] ,[[${noteupload.getNoteTitle()}]], [[${noteupload.getNoteDescription()}]])">Edit</button>
                                             <a id="delete_button" class="btn btn-danger" th:href="@{/notes/delete/{notetitle}(notetitle=${noteupload.getNoteTitle()})}">Delete</a>
                                         </td>
-                                        <th scope="row" th:text="${noteupload.getNoteTitle()}">Example Note Title</th>
-                                        <td th:text="${noteupload.getNoteDescription()}">Example Note Description </td>
+                                        <th id="note-title-row" scope="row" th:text="${noteupload.getNoteTitle()}">Example Note Title</th>
+                                        <td id="note-description-row" th:text="${noteupload.getNoteDescription()}">Example Note Description </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -138,6 +153,21 @@
                         </button>
 
                         <div class="table-responsive">
+                            <table class="table table-striped" id="success-credential">
+                                <thead>
+                                <tr th:if="${uploadSuccess}">
+                                    <th style="width: 20%" scope="col"></th>
+                                    <th style="width: 80%" scope="col" th:text="${uploadSuccess}"></th>
+                                </tr>
+                                <tr th:if="${uploadError}">
+                                    <th style="width: 20%" scope="col"></th>
+                                    <th style="width: 80%" scope="col" th:text="${uploadError}"></th>
+                                </tr>
+                                </thead>
+                            </table>
+                        </div>
+
+                        <div class="table-responsive">
                             <table class="table table-striped" id="credentialTable">
                                 <thead>
                                     <tr>
@@ -150,12 +180,12 @@
                                 <tbody th:each="credential : ${credentials}">
                                 <tr>
                                     <td>
-                                        <button id="edit-button" type="button" class="btn btn-success"th:onclick="javascript:showCredentialModal([[${credential.getCredentialId()}]] ,[[${credential.getUrl()}]], [[${credential.getUsername()}]], [[${encryptionService.decryptValue(credential.getPassword(),credential.getKey())}]])">Edit</button>
-                                        <a id="delete-button" class="btn btn-danger" th:href="@{/credentials/delete/{credentialid}(credentialid=${credential.getCredentialId()})}">Delete</a>
+                                        <button id="edit-button" type="button" class="btn btn-success"th:onclick="javascript:showCredentialModal([[${credential.getCredentialId()}]] ,[[${credential.getUrl()}]], [[${credential.getUsername()}]], [[${credential.getPassword()}]])">Edit</button>
+                                        <a id="delete-button" class="btn btn-danger" th:href="@{/credentials/delete/{credentialId}(credentialId=${credential.getCredentialId()})}">Delete</a>
                                     </td>
-                                    <th scope="row" th:text="${credential.getUrl()}">Example Credential URL</th>
-                                    <td th:text="${credential.getUsername()}">Example Credential Username</td>
-                                    <td th:text="${credential.getPassword()}">Example Credential Password</td>
+                                    <th id="credential-url-row" scope="row" th:text="${credential.getUrl()}">Example Credential URL</th>
+                                    <td id="credential-username-row" th:text="${credential.getUsername()}">Example Credential Username</td>
+                                    <td id="credential-password-row" th:text="${credential.getPassword()}">Example Credential Password</td>
                                 </tr>
                                 </tbody>
                             </table>
@@ -171,7 +201,7 @@
                                         </button>
                                     </div>
                                     <div class="modal-body">
-                                        <form action="#" th:href="@{/credentials}" th:object="${CredentialsForm}" method="POST">
+                                        <form action="#" th:action="@{/credentials}" th:object="${CredentialsForm}" method="POST">
                                             <input th:field="*{credentialid}" type="hidden" name="credentialId" id="credential-id">
                                             <div class="form-group">
                                                 <label for="credential-url" class="col-form-label">URL</label>

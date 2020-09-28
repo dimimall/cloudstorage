@@ -2,9 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.Credentials;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Credentials;
 import com.udacity.jwdnd.course1.cloudstorage.model.Notes;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -90,6 +88,17 @@ public class CredentialTest {
         System.out.println("click delete note button");
         webDriverWait.until(ExpectedConditions.elementToBeClickable(delete_button));
         this.js.executeScript("arguments[0].click();",delete_button);
+    }
+
+    public boolean firstCredentialDelete(){
+        try{
+            webDriver.findElement(By.id("credential-url-row"));
+            webDriver.findElement(By.id("credential-username-row"));
+            webDriver.findElement(By.id("credential-password-row"));
+            return true;
+        }catch (NoSuchElementException e){
+            return false;
+        }
     }
 
     public void createCredential(String url, String username, String password)

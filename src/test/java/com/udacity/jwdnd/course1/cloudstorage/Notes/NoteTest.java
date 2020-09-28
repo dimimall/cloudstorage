@@ -1,9 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.Notes;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Notes;
-import org.openqa.selenium.JavascriptExecutor;
-import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
+import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -110,6 +108,16 @@ public class NoteTest {
         js.executeScript("arguments[0].value='"+notes.getNoteTitle()+"';",this.notetitle);
         js.executeScript("arguments[0].value='"+notes.getNoteDescription()+"';",this.notedescription);
         js.executeScript("arguments[0].click();",note_submit);
+    }
+
+    public boolean firstNoteDelete(){
+        try{
+            webDriver.findElement(By.id("note-title-row"));
+            webDriver.findElement(By.id("note-description-row"));
+            return true;
+        }catch (NoSuchElementException e){
+            return false;
+        }
     }
 
     public Notes getFirstNote(){

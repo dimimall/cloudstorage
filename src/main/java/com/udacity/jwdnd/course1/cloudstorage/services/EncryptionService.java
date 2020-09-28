@@ -38,7 +38,7 @@ public class EncryptionService {
         KeyGenerator keyGen = null;
         try {
             keyGen = KeyGenerator.getInstance("AES");
-            keyGen.init(256);
+            keyGen.init(128);
             SecretKey secretkey = keyGen.generateKey();
             // GENERATE random nonce (number used once)
             byte[] bytes = secretkey.getEncoded();

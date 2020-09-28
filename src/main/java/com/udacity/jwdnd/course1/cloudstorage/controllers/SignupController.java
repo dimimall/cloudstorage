@@ -27,6 +27,7 @@ public class SignupController {
     @PostMapping()
     public String signupUser(@ModelAttribute User user, Model model) {
         String signupError = null;
+        String resultSign = null;
 
         if (!userService.isUsernameAvailable(user.getUsername())) {
             signupError = "The username already exists.";
@@ -41,10 +42,12 @@ public class SignupController {
 
         if (signupError == null) {
             model.addAttribute("signupSuccess", true);
+            resultSign = "login";
         } else {
             model.addAttribute("signupError", signupError);
+            resultSign = "signup";
         }
 
-        return "signup";
+        return resultSign;
     }
 }

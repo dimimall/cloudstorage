@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import javax.annotation.PostConstruct;
 import java.nio.charset.Charset;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 
@@ -33,18 +34,11 @@ public class CredentialService {
         }
         String key = encryptionService.genrateKey();
         String encryptionPass =  encryptionService.encryptValue(credentialForm.getCredentials_password(),key);
-        Credentials credentials = new Credentials();
-        credentials.setCredentialId(null);
-        credentials.setUserId(userid);
-        credentials.setUrl(credentialForm.getCredential_url());
-        credentials.setPassword(encryptionPass);
-        credentials.setKey(key);
-
-        return this.credentialsMapper.insert(credentials);
+        return this.credentialsMapper.insert(new Credentials(null,credentialForm.getCredential_url(),credentialForm.getCredential_username(),key,encryptionPass,userid));
     }
 
-    public int deleteCredentials(int credentialid){
-        return this.credentialsMapper.delete(credentialid);
+    public int deleteCredentials(int credentialId){
+        return this.credentialsMapper.delete(credentialId);
     }
 
     public int updateCredentials(CredentialForm credentialForm,Integer userid){
@@ -52,18 +46,19 @@ public class CredentialService {
         String key = encryptionService.genrateKey();
         String encryptionPass =  encryptionService.encryptValue(credentialForm.getCredentials_password(),key);
 
-        Credentials credentials = new Credentials();
-        credentials.setCredentialId(Integer.parseInt(credentialForm.getCredentialid()));
-        credentials.setUserId(userid);
-        credentials.setUrl(credentials.getUrl());
-        credentials.setPassword(encryptionPass);
-        credentials.setKey(key);
-
-        return this.credentialsMapper.update(credentials);
+        return this.credentialsMapper.update(new Credentials(Integer.parseInt(credentialForm.getCredentialid()),credentialForm.getCredential_url(),credentialForm.getCredential_username(),key,encryptionPass,userid));
     }
 
     public List<Credentials> getCredentails(int userid){
-        return this.credentialsMapper.getCredentials(userid);
+        List<Credentials> credentialsList = new ArrayList<Credentials>();
+        if (this.credentialsMapper.getCredentials(userid) != null){
+            for (Credentials credentials: this.credentialsMapper.getCredentials(userid)){
+                System.out.println("users: "+credentials.getUsername());
+                credentialsList.add(new Credentials(credentials.getCredentialId(),credentials.getUrl(),credentials.getUsername(),credentials.getKey(),encryptionService.decryptValue(credentials.getPassword(),credentials.getKey()),userid));
+            }
+            return credentialsList;
+        }
+        return null;
     }
 
     public Credentials getCredentialsByKey(int credentialid,int userid){
