@@ -82,13 +82,13 @@
                         <div class="table-responsive">
                             <table class="table table-striped" id="success-note">
                                 <thead>
-                                <tr th:if="${uploadSuccess}">
+                                <tr th:if="${noteSuccess}">
                                     <th style="width: 20%" scope="col"></th>
-                                    <th style="width: 80%" scope="col" th:text="${uploadSuccess}"></th>
+                                    <th style="width: 80%" scope="col" th:text="${noteSuccess}"></th>
                                 </tr>
-                                <tr th:if="${uploadError}">
+                                <tr th:if="${noteError}">
                                     <th style="width: 20%" scope="col"></th>
-                                    <th style="width: 80%" scope="col" th:text="${uploadError}"></th>
+                                    <th style="width: 80%" scope="col" th:text="${noteError}"></th>
                                 </tr>
                                 </thead>
                             </table>
@@ -155,13 +155,13 @@
                         <div class="table-responsive">
                             <table class="table table-striped" id="success-credential">
                                 <thead>
-                                <tr th:if="${uploadSuccess}">
+                                <tr th:if="${credentialSuccess}">
                                     <th style="width: 20%" scope="col"></th>
-                                    <th style="width: 80%" scope="col" th:text="${uploadSuccess}"></th>
+                                    <th style="width: 80%" scope="col" th:text="${credentialSuccess}"></th>
                                 </tr>
-                                <tr th:if="${uploadError}">
+                                <tr th:if="${credentialError}">
                                     <th style="width: 20%" scope="col"></th>
-                                    <th style="width: 80%" scope="col" th:text="${uploadError}"></th>
+                                    <th style="width: 80%" scope="col" th:text="${credentialError}"></th>
                                 </tr>
                                 </thead>
                             </table>
@@ -236,6 +236,16 @@
 
         <!--For opening the note modal-->
         <script type="text/javascript" th:inline="javascript">
+
+            // For success alert message
+            function showSuccess(success) {
+                alert(success);
+            }
+
+            // For error alert message
+            function showError(error) {
+                alert(error);
+            }
 
             // For opening the note modal
             function showNoteModal(noteId, noteTitle, noteDescription) {

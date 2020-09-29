@@ -49,13 +49,21 @@ public class FilesController {
         String uploadError = null;
         User user = userService.getUser(principal.getName());
         int rowsAdded =0;
+
+        if (file.isEmpty()) {
+            uploadError = "The file is empty. '"+uploadError+" '";
+            model.addAttribute("uploadError", "You cannot upload empty file ");
+        }
+
         if (uploadError == null) {
-            if (filesMapper.getFileName(file.getOriginalFilename()) != null)
-                model.addAttribute("uploadError", "You cannot upload same file name ");
-            else
-                rowsAdded = this.fileUploadService.addFile(file,user.getUserId());
-            if (rowsAdded < 0) {
-                uploadError = "There was an error upload file. Please try again.";
+            if (!file.isEmpty()){
+                if (filesMapper.getFileName(file.getOriginalFilename()) != null)
+                    model.addAttribute("uploadError", "You cannot upload same file name ");
+                else
+                    rowsAdded = this.fileUploadService.addFile(file,user.getUserId());
+                if (rowsAdded < 0) {
+                    uploadError = "There was an error upload file. Please try again.";
+                }
             }
         }
 
@@ -99,7 +107,7 @@ public class FilesController {
 
         if (uploadError == null) {
             model.addAttribute("uploadSuccess",
-                    "You successfully delete '" + files.getFileName() + "'");
+                    "You successfully delete ");
         } else {
             model.addAttribute("uploadError",
                     "You cannot delete file '" + uploadError + "'");

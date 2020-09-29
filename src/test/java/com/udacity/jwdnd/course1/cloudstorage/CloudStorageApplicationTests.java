@@ -67,6 +67,9 @@ class CloudStorageApplicationTests {
 		String username = "dimimall";
 		String password = "10011982abc";
 
+		driver.get(baseURL + "/home");
+		Assertions.assertFalse(driver.getTitle().equals("Home"));
+
 		driver.get(baseURL + "/signup");
 		wait.until(ExpectedConditions.titleContains("Sign Up"));
 		Assertions.assertEquals("Sign Up", driver.getTitle());
