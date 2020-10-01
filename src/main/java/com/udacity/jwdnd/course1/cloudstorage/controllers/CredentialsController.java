@@ -51,21 +51,21 @@ public class CredentialsController {
         if (!credentialForm.getCredentialid().equalsIgnoreCase("")){
             try {
                 this.credentialService.updateCredentials(credentialForm,user.getUserId());
-                model.addAttribute("credentialSuccess",
+                model.addAttribute("uploadSuccess",
                         "You successfully update credential");
             }catch (Exception e){
                 logger.error("Cause: " + e.getCause() + ". Message: " + e.getMessage());
-                model.addAttribute("credentialError",
+                model.addAttribute("uploadError",
                         "You cannot update credential");
             }
         }else {
             try{
                 this.credentialService.createCredentials(credentialForm,user.getUserId());
-                model.addAttribute("credentialSuccess",
+                model.addAttribute("uploadSuccess",
                         "You successfully insert credential");
             }catch (Exception e){
                 logger.error("Cause: " + e.getCause() + ". Message: " + e.getMessage());
-                model.addAttribute("credentialError",
+                model.addAttribute("uploadError",
                         "You cannot insert credential");
             }
         }
@@ -92,10 +92,10 @@ public class CredentialsController {
         }
 
         if (uploadError == null) {
-            model.addAttribute("credentialSuccess",
-                    "You successfully delete ");
+            model.addAttribute("uploadSuccess",
+                    "You successfully delete credential ");
         } else {
-            model.addAttribute("credentialError",
+            model.addAttribute("uploadError",
                     "You cannot delete credential '" + uploadError + "'");
         }
 

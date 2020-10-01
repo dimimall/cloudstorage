@@ -76,7 +76,7 @@ public class CredentialTest {
     public void editCredentialButton()
     {
         System.out.println("click edit credential button");
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(edit_button)).click();
+        webDriverWait.until(ExpectedConditions.visibilityOf(edit_button));
         this.js.executeScript("arguments[0].click();",edit_button);
     }
 
@@ -105,7 +105,6 @@ public class CredentialTest {
     {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(add_credential));
         js.executeScript("arguments[0].click();",add_credential);
-        waitModeCredentiallPage();
         js.executeScript("arguments[0].value='"+url+"';",this.credential_url);
         js.executeScript("arguments[0].value='"+username+"';",this.credential_username);
         js.executeScript("arguments[0].value='"+password+"';",this.credential_password);
@@ -130,11 +129,18 @@ public class CredentialTest {
         js.executeScript("arguments[0].click();",credential_submit);
     }
 
+    private String getValueFromInput(String inputId){
+        WebElement input = webDriver.findElement(By.id(inputId));
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(input));
+        js.executeScript("arguments[0].click();", input);
+        return input.getAttribute("value");
+    }
+
     public Credentials getFirstCredentials()
     {
-        String url = (String) js.executeScript("return arguments[0].value",this.credential_url);
-        String username = (String) js.executeScript("return arguments[0].value",this.credential_username);
-        String password = (String) js.executeScript("return arguments[0].value",this.credential_password);
-        return new Credentials(url,username,password);
+        String url = getValueFromInput("credential-url");
+        String username = getValueFromInput("credential-username");
+        String password = getValueFromInput("credential-password");
+        return new Credentials(null,url,username,null,password,null);
     }
 }

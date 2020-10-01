@@ -50,15 +50,7 @@ public class CredentialService {
     }
 
     public List<Credentials> getCredentails(int userid){
-        List<Credentials> credentialsList = new ArrayList<Credentials>();
-        if (this.credentialsMapper.getCredentials(userid) != null){
-            for (Credentials credentials: this.credentialsMapper.getCredentials(userid)){
-                System.out.println("users: "+credentials.getUsername());
-                credentialsList.add(new Credentials(credentials.getCredentialId(),credentials.getUrl(),credentials.getUsername(),credentials.getKey(),encryptionService.decryptValue(credentials.getPassword(),credentials.getKey()),userid));
-            }
-            return credentialsList;
-        }
-        return null;
+        return this.credentialsMapper.getCredentials(userid);
     }
 
     public Credentials getCredentialsByKey(int credentialid,int userid){

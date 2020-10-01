@@ -82,13 +82,13 @@
                         <div class="table-responsive">
                             <table class="table table-striped" id="success-note">
                                 <thead>
-                                <tr th:if="${noteSuccess}">
+                                <tr th:if="${uploadSuccess}">
                                     <th style="width: 20%" scope="col"></th>
-                                    <th style="width: 80%" scope="col" th:text="${noteSuccess}"></th>
+                                    <th style="width: 80%" scope="col" th:text="${uploadSuccess}"></th>
                                 </tr>
-                                <tr th:if="${noteError}">
+                                <tr th:if="${uploadError}">
                                     <th style="width: 20%" scope="col"></th>
-                                    <th style="width: 80%" scope="col" th:text="${noteError}"></th>
+                                    <th style="width: 80%" scope="col" th:text="${uploadError}"></th>
                                 </tr>
                                 </thead>
                             </table>
@@ -109,8 +109,8 @@
                                             <button id="edit_button" type="button" class="btn btn-success"th:onclick="javascript:showNoteModal([[${noteupload.getNoteid()}]] ,[[${noteupload.getNoteTitle()}]], [[${noteupload.getNoteDescription()}]])">Edit</button>
                                             <a id="delete_button" class="btn btn-danger" th:href="@{/notes/delete/{notetitle}(notetitle=${noteupload.getNoteTitle()})}">Delete</a>
                                         </td>
-                                        <th id="note-title-row" scope="row" th:text="${noteupload.getNoteTitle()}">Example Note Title</th>
-                                        <td id="note-description-row" th:text="${noteupload.getNoteDescription()}">Example Note Description </td>
+                                        <th id="note_title_row" scope="row" th:text="${noteupload.getNoteTitle()}">Example Note Title</th>
+                                        <td id="note_description_row" th:text="${noteupload.getNoteDescription()}">Example Note Description </td>
                                     </tr>
                                 </tbody>
                             </table>
@@ -130,11 +130,11 @@
                                             <input th:field="*{noteid}" type="hidden" name="noteId" id="note-id">
                                             <div class="form-group">
                                                 <label for="note-title" class="col-form-label">Title</label>
-                                                <input th:field="*{notetitle}" type="text" name= "noteTitle" class="form-control" id="note-title" maxlength="20" required>
+                                                <input th:field="*{notetitle}" type="text" name= "note-title" class="form-control" id="note-title" maxlength="20" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="note-description" class="col-form-label">Description</label>
-                                                <textarea th:field="*{notedescription}" class="form-control" name="noteDescription" id="note-description" rows="5" maxlength="1000" required></textarea>
+                                                <textarea th:field="*{notedescription}" class="form-control" name="note-description" id="note-description" rows="5" maxlength="1000" required></textarea>
                                             </div>
                                             <button id="noteSubmit" type="submit" class="d-none"></button>
                                         </form>
@@ -155,13 +155,13 @@
                         <div class="table-responsive">
                             <table class="table table-striped" id="success-credential">
                                 <thead>
-                                <tr th:if="${credentialSuccess}">
+                                <tr th:if="${uploadSuccess}">
                                     <th style="width: 20%" scope="col"></th>
-                                    <th style="width: 80%" scope="col" th:text="${credentialSuccess}"></th>
+                                    <th style="width: 80%" scope="col" th:text="${uploadSuccess}"></th>
                                 </tr>
-                                <tr th:if="${credentialError}">
+                                <tr th:if="${uploadError}">
                                     <th style="width: 20%" scope="col"></th>
-                                    <th style="width: 80%" scope="col" th:text="${credentialError}"></th>
+                                    <th style="width: 80%" scope="col" th:text="${uploadError}"></th>
                                 </tr>
                                 </thead>
                             </table>
@@ -205,15 +205,15 @@
                                             <input th:field="*{credentialid}" type="hidden" name="credentialId" id="credential-id">
                                             <div class="form-group">
                                                 <label for="credential-url" class="col-form-label">URL</label>
-                                                <input type="text" th:field="*{credential_url}" name= "url" class="form-control" id="credential-url" maxlength="100" required>
+                                                <input type="text" th:field="*{credential_url}" name= "credential-url" class="form-control" id="credential-url" maxlength="100" required>
                                             </div>
                                             <div class="form-group">
                                                 <label for="credential-username" class="col-form-label">Username</label>
-                                                <input type="text" th:field="*{credential_username}" name= "username" class="form-control" id="credential-username" maxlength="30" required>
+                                                <input type="text" th:field="*{credential_username}" name= "credential-username" class="form-control" id="credential-username" maxlength="30" required>
                                             </div>
                                             <div class="form-group">
-                                                <label for="note-title" class="col-form-label">Password</label>
-                                                <input type="password" th:field="*{credentials_password}" name= "password" class="form-control" id="credential-password" maxlength="30" required>
+                                                <label for="credential-password" class="col-form-label">Password</label>
+                                                <input type="password" th:field="*{credentials_password}" name= "credential-password" class="form-control" id="credential-password" maxlength="30" required>
                                             </div>
                                             <button id="credentialSubmit" type="submit" class="d-none"></button>
                                         </form>

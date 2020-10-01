@@ -43,8 +43,8 @@ public class NoteTest {
     {
         PageFactory.initElements(webDriver, this);
         this.webDriver = webDriver;
-        webDriverWait = new WebDriverWait(this.webDriver,15);
         this.js = (JavascriptExecutor) webDriver;
+        webDriverWait = new WebDriverWait(this.webDriver,15);
     }
 
     public void logoutHomePage()
@@ -71,7 +71,7 @@ public class NoteTest {
     public void editNoteButton()
     {
         System.out.println("click edit note button");
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(edit_button)).click();
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(edit_button));
         this.js.executeScript("arguments[0].click();",edit_button);
     }
 
@@ -85,47 +85,51 @@ public class NoteTest {
         this.js.executeScript("arguments[0].click();",delete_button);
     }
 
-    public void createNote(String notetitle, String notedescription)
+    public void createNote(String noteTitle, String noteDescription)
     {
         webDriverWait.until(ExpectedConditions.elementToBeClickable(add_note_button));
         js.executeScript("arguments[0].click();",add_note_button);
-        waitNoteModelPage();
-        js.executeScript("arguments[0].value='"+notetitle+"';",this.notetitle);
-        js.executeScript("arguments[0].value='"+notedescription+"';",this.notedescription);
+        js.executeScript("arguments[0].value='"+noteTitle+"';",notetitle);
+        js.executeScript("arguments[0].value='"+noteDescription+"';",notedescription);
         js.executeScript("arguments[0].click();",note_submit);
     }
 
-    public void updateNote(Notes notes, String notetitle, String notedescription)
+    public void updateNote(Notes notes, String noteTitle, String noteDescription)
     {
-        notes.setNoteTitle(notetitle);
-        notes.setNoteDescription(notedescription);
+        notes.setNoteTitle(noteTitle);
+        notes.setNoteDescription(noteDescription);
 
         js.executeScript("arguments[0].click();",edit_button);
 
         this.notetitle.clear();
         this.notedescription.clear();
 
-        js.executeScript("arguments[0].value='"+notes.getNoteTitle()+"';",this.notetitle);
-        js.executeScript("arguments[0].value='"+notes.getNoteDescription()+"';",this.notedescription);
+        js.executeScript("arguments[0].value='"+notes.getNoteTitle()+"';",notetitle);
+        js.executeScript("arguments[0].value='"+notes.getNoteDescription()+"';",notedescription);
         js.executeScript("arguments[0].click();",note_submit);
     }
 
     public boolean firstNoteDelete(){
         try{
             webDriver.findElement(By.id("note-title-row"));
-            webDriver.findElement(By.id("note-description-row"));
+            //webDriver.findElement(By.id("note-description"));
             return true;
         }catch (NoSuchElementException e){
             return false;
         }
     }
 
+    private String getValueFromInput(String inputId){
+        WebElement input = webDriver.findElement(By.id(inputId));
+        webDriverWait.until(ExpectedConditions.elementToBeClickable(input));
+        js.executeScript("arguments[0].click();", input);
+        return input.getAttribute("value");
+    }
+
     public Notes getFirstNote(){
-        Notes notes = new Notes();
-        String notetitle = (String) js.executeScript("return arguments[0].value",this.notetitle);
-        String notedescription = (String) js.executeScript("return arguments[0].value",this.notedescription);
-        notes.setNoteTitle(notetitle);
-        notes.setNoteDescription(notedescription);
+        String firstNoteTitle = getValueFromInput("note-title");
+        String firstNoteDescription = getValueFromInput("note-description");
+        Notes notes = new Notes(null,firstNoteTitle,firstNoteDescription,null);
         return notes;
     }
 }

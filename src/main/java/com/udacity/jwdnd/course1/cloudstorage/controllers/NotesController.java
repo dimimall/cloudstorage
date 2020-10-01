@@ -51,23 +51,23 @@ public class NotesController {
         {
             try {
                 this.notesService.createNotes(noteForm,user.getUserId());
-                model.addAttribute("noteSuccess",
+                model.addAttribute("uploadSuccess",
                         "You successfully create '" + noteForm.getNotetitle() + "'");
             }catch (Exception e){
                 logger.error("Cause: " + e.getCause() + ". Message: " + e.getMessage());
-                model.addAttribute("noteError",
+                model.addAttribute("uploadError",
                         "You cannot create note ");
             }
         }
         else {
             try{
                 this.notesService.updateNote(noteForm,user.getUserId());
-                model.addAttribute("noteSuccess",
+                model.addAttribute("uploadSuccess",
                         "You successfully update '" + noteForm.getNotetitle() + "'");
             }catch (Exception e)
             {
                 logger.error("Cause: " + e.getCause() + ". Message: " + e.getMessage());
-                model.addAttribute("noteError", "You cannot update note ");
+                model.addAttribute("uploadError", "You cannot update note ");
             }
         }
 
@@ -92,10 +92,10 @@ public class NotesController {
         }
 
         if (uploadError == null) {
-            model.addAttribute("noteSuccess",
+            model.addAttribute("uploadSuccess",
                     "You successfully delete '" + notetitle + "'");
         } else {
-            model.addAttribute("noteError",
+            model.addAttribute("uploadError",
                     "You cannot delete note '" + uploadError + "'");
         }
 
