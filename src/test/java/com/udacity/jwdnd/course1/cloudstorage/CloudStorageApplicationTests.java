@@ -111,7 +111,6 @@ class CloudStorageApplicationTests {
 
 		RegistrationTest registrationTest = new RegistrationTest(driver);
 		registrationTest.createUser(firstName,lastName,username,password);
-		//registrationTest.loginPage();
 
 		wait.until(ExpectedConditions.titleContains("Login"));
 		Assertions.assertEquals("Login", driver.getTitle());
@@ -126,6 +125,7 @@ class CloudStorageApplicationTests {
 		NoteTest noteTest = new NoteTest(driver);
 		noteTest.openNavTapNote();
 		noteTest.createNote(noteTitle,noteDescription);
+
 		noteTest.logoutHomePage();
 
 		wait.until(ExpectedConditions.titleContains("Login"));
@@ -158,7 +158,6 @@ class CloudStorageApplicationTests {
 
 		RegistrationTest registrationTest = new RegistrationTest(driver);
 		registrationTest.createUser(firstName,lastName,username,password);
-		//registrationTest.loginPage();
 
 		wait.until(ExpectedConditions.titleContains("Login"));
 		Assertions.assertEquals("Login", driver.getTitle());
@@ -174,8 +173,8 @@ class CloudStorageApplicationTests {
 		noteTest.openNavTapNote();
 		noteTest.createNote(noteTitle,noteDescription);
 
-
 		noteTest.logoutHomePage();
+
 		wait.until(ExpectedConditions.titleContains("Login"));
 		Assertions.assertEquals("Login", driver.getTitle());
 		loginTest.loginUser(username,password);
@@ -205,7 +204,7 @@ class CloudStorageApplicationTests {
 
 		Notes newNote = noteTest.getFirstNote();
 		Assertions.assertEquals(newNoteTitle, newNote.getNoteTitle());
-//		Assertions.assertEquals(newNoteDescription, newNote.getNoteDescription());
+		Assertions.assertEquals(newNoteDescription, newNote.getNoteDescription());
 	}
 
 	//@Order(5)
@@ -237,6 +236,7 @@ class CloudStorageApplicationTests {
 		noteTest.createNote("Any Title", "Any Description"); //Redirects to result page
 
 		noteTest.logoutHomePage();
+
 		wait.until(ExpectedConditions.titleContains("Login"));
 		Assertions.assertEquals("Login", driver.getTitle());
 
@@ -293,6 +293,7 @@ class CloudStorageApplicationTests {
 		CredentialTest credentialTest = new CredentialTest(driver);
 		credentialTest.openNavTapCredential();
 		credentialTest.createCredential(url,username1,password1);
+
 		credentialTest.logoutHomePage();
 
 		wait.until(ExpectedConditions.titleContains("Login"));
@@ -308,7 +309,7 @@ class CloudStorageApplicationTests {
 		Credentials credentials = credentialTest.getFirstCredentials();
 		Assertions.assertEquals(url,credentials.getUrl());
 		Assertions.assertEquals(username1,credentials.getUsername());
-		//Assertions.assertEquals(password1,credentials.getPassword());
+		Assertions.assertEquals(password1,credentials.getPassword());
 	}
 //	@Order(7)
 	@Test
@@ -336,9 +337,11 @@ class CloudStorageApplicationTests {
 		String credentialUrl = "www.google.com";
 		String credentialUsername = "Martinez";
 		String credentialPassword = "Brothers";
+
 		CredentialTest credentialTest = new CredentialTest(driver);
 		credentialTest.openNavTapCredential();
 		credentialTest.createCredential(credentialUrl, credentialUsername, credentialPassword);
+
 		credentialTest.logoutHomePage();
 
 		wait.until(ExpectedConditions.titleContains("Login"));
@@ -375,7 +378,7 @@ class CloudStorageApplicationTests {
 		Credentials newCredentials = credentialTest.getFirstCredentials();
 		Assertions.assertEquals(newUrlCredential, newCredentials.getUrl());
 		Assertions.assertEquals(newUsernameCredential, newCredentials.getUsername());
-		//Assertions.assertEquals(newPasswordCredential, newCredentials.getPassword());
+		Assertions.assertEquals(newPasswordCredential, newCredentials.getPassword());
 	}
 
 //	@Order(8)
@@ -408,6 +411,7 @@ class CloudStorageApplicationTests {
 		credentialTest.createCredential(credentialUrl, credentialUsername, credentialPassword);
 
 		credentialTest.logoutHomePage();
+
 		wait.until(ExpectedConditions.titleContains("Login"));
 		Assertions.assertEquals("Login", driver.getTitle());
 		loginTest.loginUser(username, password);

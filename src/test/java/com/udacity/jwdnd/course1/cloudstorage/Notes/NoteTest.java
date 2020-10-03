@@ -50,8 +50,13 @@ public class NoteTest {
     public void logoutHomePage()
     {
         System.out.println("click logout button");
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(logout));
-        this.js.executeScript("arguments[0].click();",logout);
+        try {
+            webDriverWait.until(ExpectedConditions.elementToBeClickable(logout));
+            this.js.executeScript("arguments[0].click();",logout);
+        }catch (StaleElementReferenceException e){
+            WebElement logoutBtn = webDriver.findElement(By.id("logout"));
+            this.js.executeScript("arguments[0].click();", logoutBtn);
+        }
     }
 
     public void openNavTapNote()

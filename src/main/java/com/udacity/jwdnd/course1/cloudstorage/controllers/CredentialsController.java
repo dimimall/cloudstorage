@@ -22,14 +22,16 @@ public class CredentialsController {
     private final UserService userService;
     private final NotesService notesService;
     private final FileUploadService fileUploadService;
+    private final EncryptionService encryptionService;
     private Logger logger = LoggerFactory.getLogger(CredentialsController.class);
 
-    public CredentialsController(CredentialService credentialService, UserService userService, NotesService notesService, FileUploadService fileUploadService)
+    public CredentialsController(CredentialService credentialService, UserService userService, NotesService notesService, FileUploadService fileUploadService, EncryptionService encryptionService)
     {
         this.credentialService = credentialService;
         this.userService = userService;
         this.notesService = notesService;
         this.fileUploadService = fileUploadService;
+        this.encryptionService = encryptionService;
     }
 
     @GetMapping("/credentials")
@@ -40,6 +42,8 @@ public class CredentialsController {
         model.addAttribute("credentials",this.credentialService.getCredentails(user.getUserId()));
         model.addAttribute("notesupload",this.notesService.getNotesList(user.getUserId()));
         model.addAttribute("filesUpload", this.fileUploadService.getAllFiles(user.getUserId()));
+        model.addAttribute("encryptionService", this.encryptionService);
+
         return "home";
     }
 
@@ -73,6 +77,7 @@ public class CredentialsController {
         model.addAttribute("credentials",this.credentialService.getCredentails(user.getUserId()));
         model.addAttribute("notesupload",this.notesService.getNotesList(user.getUserId()));
         model.addAttribute("filesUpload", this.fileUploadService.getAllFiles(user.getUserId()));
+        model.addAttribute("encryptionService", this.encryptionService);
 
         return "home";
     }
@@ -102,6 +107,7 @@ public class CredentialsController {
         model.addAttribute("credentials",this.credentialService.getCredentails(user.getUserId()));
         model.addAttribute("notesupload",this.notesService.getNotesList(user.getUserId()));
         model.addAttribute("filesUpload", this.fileUploadService.getAllFiles(user.getUserId()));
+        model.addAttribute("encryptionService", this.encryptionService);
 
         return "home";
     }

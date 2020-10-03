@@ -5,8 +5,8 @@ public class Credentials {
     private Integer credentialId;
     private String url;
     private String username;
-    private String key;
-    private String password;
+    String key;
+    String password;
     private Integer userId;
 
     public Credentials() {}

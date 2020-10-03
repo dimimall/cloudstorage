@@ -2,6 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.Credentials;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.Credentials;
 import com.udacity.jwdnd.course1.cloudstorage.model.Notes;
+import com.udacity.jwdnd.course1.cloudstorage.services.EncryptionService;
 import org.openqa.selenium.*;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
@@ -55,8 +56,13 @@ public class CredentialTest {
     public void logoutHomePage()
     {
         System.out.println("click logout button");
-        webDriverWait.until(ExpectedConditions.elementToBeClickable(logout));
-        this.js.executeScript("arguments[0].click();",logout);
+        try {
+            webDriverWait.until(ExpectedConditions.elementToBeClickable(logout));
+            this.js.executeScript("arguments[0].click();",logout);
+        }catch (StaleElementReferenceException e){
+            WebElement logoutBtn = webDriver.findElement(By.id("logout"));
+            this.js.executeScript("arguments[0].click();", logoutBtn);
+        }
     }
 
     public void openNavTapCredential()

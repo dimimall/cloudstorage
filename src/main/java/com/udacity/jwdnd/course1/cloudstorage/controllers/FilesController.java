@@ -2,10 +2,7 @@ package com.udacity.jwdnd.course1.cloudstorage.controllers;
 
 import com.udacity.jwdnd.course1.cloudstorage.Mapper.FilesMapper;
 import com.udacity.jwdnd.course1.cloudstorage.model.*;
-import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
-import com.udacity.jwdnd.course1.cloudstorage.services.FileUploadService;
-import com.udacity.jwdnd.course1.cloudstorage.services.NotesService;
-import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import com.udacity.jwdnd.course1.cloudstorage.services.*;
 import org.springframework.core.io.ByteArrayResource;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -24,11 +21,13 @@ public class FilesController {
     private final NotesService notesService;
     private final CredentialService credentialService;
     private final FilesMapper filesMapper;
+    private final EncryptionService encryptionService;
 
-    public FilesController(FileUploadService fileUploadService, UserService userService, NotesService notesService, CredentialService credentialService, FilesMapper filesMapper){
+    public FilesController(FileUploadService fileUploadService, UserService userService, NotesService notesService, CredentialService credentialService, FilesMapper filesMapper, EncryptionService encryptionService){
         this.fileUploadService = fileUploadService;
         this.notesService = notesService;
         this.userService = userService;
+        this.encryptionService = encryptionService;
         this.credentialService = credentialService;
         this.filesMapper = filesMapper;
     }
@@ -40,7 +39,7 @@ public class FilesController {
         model.addAttribute("filesUpload", this.fileUploadService.getAllFiles(user.getUserId()));
         model.addAttribute("notesupload", this.notesService.getNotesList(user.getUserId()));
         model.addAttribute("credentials",this.credentialService.getCredentails(user.getUserId()));
-
+        model.addAttribute("encryptionService", this.encryptionService);
         return "home";
     }
 
@@ -78,6 +77,7 @@ public class FilesController {
         model.addAttribute("filesUpload", this.fileUploadService.getAllFiles(user.getUserId()));
         model.addAttribute("notesupload", this.notesService.getNotesList(user.getUserId()));
         model.addAttribute("credentials",this.credentialService.getCredentails(user.getUserId()));
+        model.addAttribute("encryptionService", this.encryptionService);
 
         return "home";
     }
@@ -116,6 +116,7 @@ public class FilesController {
         model.addAttribute("filesUpload", this.fileUploadService.getAllFiles(user.getUserId()));
         model.addAttribute("notesupload", this.notesService.getNotesList(user.getUserId()));
         model.addAttribute("credentials",this.credentialService.getCredentails(user.getUserId()));
+        model.addAttribute("encryptionService", this.encryptionService);
 
         return "home";
     }

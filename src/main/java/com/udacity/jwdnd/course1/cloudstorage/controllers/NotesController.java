@@ -1,10 +1,7 @@
 package com.udacity.jwdnd.course1.cloudstorage.controllers;
 
 import com.udacity.jwdnd.course1.cloudstorage.model.*;
-import com.udacity.jwdnd.course1.cloudstorage.services.CredentialService;
-import com.udacity.jwdnd.course1.cloudstorage.services.FileUploadService;
-import com.udacity.jwdnd.course1.cloudstorage.services.NotesService;
-import com.udacity.jwdnd.course1.cloudstorage.services.UserService;
+import com.udacity.jwdnd.course1.cloudstorage.services.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
@@ -22,13 +19,15 @@ public class NotesController {
     private final FileUploadService fileUploadService;
     private final UserService userService;
     private final CredentialService credentialService;
+    private final EncryptionService encryptionService;
     private Logger logger = LoggerFactory.getLogger(NotesController.class);
 
-    public NotesController(NotesService notesService, UserService userService, FileUploadService fileUploadService, CredentialService credentialService){
+    public NotesController(NotesService notesService, UserService userService, FileUploadService fileUploadService, CredentialService credentialService, EncryptionService encryptionService){
         this.notesService = notesService;
         this.fileUploadService = fileUploadService;
         this.userService = userService;
         this.credentialService = credentialService;
+        this.encryptionService = encryptionService;
     }
 
     @GetMapping("/notes")
@@ -38,6 +37,7 @@ public class NotesController {
         model.addAttribute("notesupload",this.notesService.getNotesList(user.getUserId()));
         model.addAttribute("filesUpload", this.fileUploadService.getAllFiles(user.getUserId()));
         model.addAttribute("credentials",this.credentialService.getCredentails(user.getUserId()));
+        model.addAttribute("encryptionService", this.encryptionService);
 
         return "home";
     }
@@ -74,6 +74,7 @@ public class NotesController {
         model.addAttribute("notesupload",this.notesService.getNotesList(user.getUserId()));
         model.addAttribute("filesUpload", this.fileUploadService.getAllFiles(user.getUserId()));
         model.addAttribute("credentials",this.credentialService.getCredentails(user.getUserId()));
+        model.addAttribute("encryptionService", this.encryptionService);
 
         return "home";
     }
@@ -102,6 +103,7 @@ public class NotesController {
         model.addAttribute("notesupload",this.notesService.getNotesList(user.getUserId()));
         model.addAttribute("filesUpload", this.fileUploadService.getAllFiles(user.getUserId()));
         model.addAttribute("credentials",this.credentialService.getCredentails(user.getUserId()));
+        model.addAttribute("encryptionService", this.encryptionService);
 
         return "home";
     }
